@@ -14,7 +14,6 @@ module AwesomeNestedFields
         options[:render_template] = options.key?(:render_template) ? options[:render_template] : true
         options[:escape_template] = options.key?(:escape_template) ? options[:escape_template] : true
 
-        puts "Options: #{options.except(:new_item_index, :new_object, :item_template_class, :empty_template_class, :show_empty, :render_template, :escape_template)}"
         output = @template.capture { simple_fields_for(record_name, record_object, options.except(:new_item_index, :new_object, :item_template_class, :empty_template_class, :show_empty, :render_template, :escape_template), &block) }
         output ||= template.raw ""
 
@@ -36,7 +35,6 @@ module AwesomeNestedFields
 
       def render_nested_fields_template(association, options, &block)
         templates = @template.content_tag(:script, :type => 'text/html', :class => options[:item_template_class]) do
-          puts "Options: #{options.merge({child_index: options[:new_item_index]}).except(:new_item_index, :new_object, :item_template_class, :empty_template_class, :show_empty, :render_template, :escape_template)}"
           template = simple_fields_for(association, options[:new_object], options.merge({child_index: options[:new_item_index]}).except(:new_item_index, :new_object, :item_template_class, :empty_template_class, :show_empty, :render_template, :escape_template), &block)
           template = AwesomeNestedFields.escape_html_tags(template) if options[:escape_template]
           template
